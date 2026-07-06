@@ -97,6 +97,12 @@ st.markdown("""
         box-shadow: 0 2px 6px rgba(204,0,0,0.3);
     }
 
+    /* 上部の余白を削減 */
+    .stApp > div:first-child { padding-top: 0 !important; }
+    header[data-testid="stHeader"] { display: none !important; }
+    .stMainBlockContainer { padding-top: 16px !important; padding-bottom: 16px !important; }
+    div[data-testid="stVerticalBlock"] { gap: 0.4rem !important; }
+
     /* カードエリア */
     div[data-testid="column"] {
         background-color: #FFFFFF;
@@ -235,10 +241,10 @@ with tabs[1]:  # 「生成」タブ
     if src_type == "🛍️ 楽天URLから":
         st.warning("⚠️ URLからの自動取得は現在未実装です。今は「📷 写真から」をご利用ください。")
 
-    col1, col2 = st.columns([1, 1.2])
+    col1, col2 = st.columns([1, 1.3])
 
     with col1:
-        st.subheader("商品画像")
+        st.markdown("#### 📷 商品画像")
         uploaded_file = st.file_uploader("商品画像をアップロード（必須）", type=["jpg", "jpeg", "png"])
 
         img_for_gemini = None
@@ -247,7 +253,7 @@ with tabs[1]:  # 「生成」タブ
             st.image(img_for_gemini, caption="アップロードされた画像", use_container_width=True)
 
     with col2:
-        st.subheader("投稿設定")
+        st.markdown("#### ⚙️ 投稿設定")
 
         gender = st.radio("性別", ["指定なし", "男性", "女性"], horizontal=True)
 
@@ -274,8 +280,8 @@ with tabs[1]:  # 「生成」タブ
         tone = st.radio("トーン", ["エモい", "面白い", "カッコいい", "びっくり", "正直レビュー"], horizontal=True, index=4)
         lines = st.radio("行数", ["1行", "3行", "5行"], horizontal=True, index=1)
 
-        affiliate_url = st.text_input("アフィリエイトURL（任意）", placeholder="https://r10.to/xxxx")
-        memo = st.text_area("補足メモ（任意）", placeholder="例：秋冬向け・プレゼントにも。使い心地など")
+        affiliate_url = st.text_input("🔗 アフィリエイトURL（任意）", placeholder="https://r10.to/xxxx")
+        memo = st.text_area("📝 補足メモ（任意）", placeholder="例：秋冬向け・プレゼントにも。使い心地など", height=80)
 
     st.markdown("---")
 
