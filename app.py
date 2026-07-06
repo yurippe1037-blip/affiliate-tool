@@ -17,149 +17,147 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 # -------------------------------------------------------------
 st.set_page_config(
     page_title="Affiliate Post",
-    page_icon="🌸",
+    page_icon="🤖",
     layout="wide",
 )
 
 st.markdown("""
     <style>
-    /* ===== カラーパレット =====
-       背景: 温かみのあるオフホワイト
-       メイン: テラコッタ（くすみオレンジ）
-       サブ: モーヴ（くすみピンクパープル）
-       文字: チャコールグレー
+    /* ===== ベイマックスカラー =====
+       背景: 純白
+       メイン: ベイマックスレッド
+       文字: チャコールブラック
     */
     .stApp {
-        background: #FAF7F5;
+        background: #F8F8F8;
     }
 
     .stApp p, .stApp label, .stApp span, .stApp div {
-        color: #3D3633 !important;
+        color: #1A1A1A !important;
         font-weight: 500 !important;
-        font-size: 16px !important;
+        font-size: 14px !important;
     }
 
     h1 {
-        color: #B5664E !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px;
+        color: #CC0000 !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px;
+        font-size: 26px !important;
     }
     h2, h3 {
-        color: #8C5F63 !important;
+        color: #1A1A1A !important;
         font-weight: 700 !important;
+        font-size: 15px !important;
     }
 
     /* 各項目の見出し（性別・年齢など） */
-    .stRadio > label, .stCheckbox > label, div[data-testid="stMarkdownContainer"] p strong {
-        font-size: 16px !important;
+    .stRadio > label,
+    div[data-testid="stMarkdownContainer"] p strong {
+        font-size: 13px !important;
         font-weight: 700 !important;
-        color: #8C5F63 !important;
+        color: #333333 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    /* ラジオボタン・複数選択ピル（年齢・子供・トーン・行数） */
+    /* ラジオボタン・複数選択ピル */
     .stRadio [role="radiogroup"],
     div[data-testid="stPills"] {
         display: flex !important;
-        flex-wrap: nowrap !important;
-        gap: 8px !important;
-        overflow-x: auto !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
     }
     .stRadio [role="radiogroup"] label,
     div[data-testid="stPills"] button {
         background-color: #FFFFFF !important;
-        border: 1.5px solid #E4D7D2 !important;
-        border-radius: 10px !important;
-        padding: 7px 14px !important;
+        border: 1.5px solid #CCCCCC !important;
+        border-radius: 6px !important;
+        padding: 5px 12px !important;
         margin: 0 !important;
         flex-shrink: 0 !important;
         white-space: nowrap !important;
-        color: #6B5C58 !important;
+        color: #333333 !important;
         font-weight: 600 !important;
+        font-size: 13px !important;
         transition: all 0.15s ease-in-out;
     }
     .stRadio [role="radiogroup"] label:has(input:checked) {
-        background: #C97B5F !important;
-        border: 1.5px solid #C97B5F !important;
+        background: #CC0000 !important;
+        border: 1.5px solid #CC0000 !important;
         color: #FFFFFF !important;
-        box-shadow: 0 2px 8px rgba(201,123,95,0.3);
+        box-shadow: 0 2px 6px rgba(204,0,0,0.3);
     }
     .stRadio [role="radiogroup"] label:has(input:checked) p {
         color: #FFFFFF !important;
     }
     div[data-testid="stPills"] button[aria-pressed="true"] {
-        background: #9C6B7A !important;
-        border: 1.5px solid #9C6B7A !important;
+        background: #CC0000 !important;
+        border: 1.5px solid #CC0000 !important;
         color: #FFFFFF !important;
-        box-shadow: 0 2px 8px rgba(156,107,122,0.3);
+        box-shadow: 0 2px 6px rgba(204,0,0,0.3);
     }
 
-    /* セクションごとに白いカードで囲み、輪郭をくっきりと */
+    /* カードエリア */
     div[data-testid="column"] {
         background-color: #FFFFFF;
-        border: 1px solid #ECE0DC;
-        border-radius: 16px;
-        padding: 24px 22px;
-        box-shadow: 0 2px 10px rgba(140,95,99,0.06);
+        border: 1.5px solid #E0E0E0;
+        border-radius: 12px;
+        padding: 16px 18px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    hr { border-color: #ECE0DC !important; }
+    hr { border-color: #E0E0E0 !important; }
 
+    /* 生成ボタン */
     .stButton>button {
-        background: #C97B5F !important;
+        background: #CC0000 !important;
         color: #FFFFFF !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         border: none !important;
-        padding: 14px 24px !important;
-        font-size: 16px !important;
+        padding: 12px 24px !important;
+        font-size: 15px !important;
         font-weight: 700 !important;
-        box-shadow: 0 3px 10px rgba(201,123,95,0.3);
+        box-shadow: 0 3px 10px rgba(204,0,0,0.3);
         transition: all 0.15s ease-in-out;
+        letter-spacing: 0.5px;
     }
     .stButton>button:hover {
-        background: #B5664E !important;
-        box-shadow: 0 4px 14px rgba(201,123,95,0.4);
+        background: #AA0000 !important;
+        box-shadow: 0 4px 14px rgba(204,0,0,0.4);
     }
     .stButton>button:disabled {
-        background: #EFEAE8 !important;
-        color: #B0A6A2 !important;
+        background: #DDDDDD !important;
+        color: #999999 !important;
         box-shadow: none;
     }
 
+    /* タブ */
     .stTabs [data-baseweb="tab"] {
-        font-size: 16px !important;
+        font-size: 14px !important;
         font-weight: 700 !important;
-        color: #B0A6A2 !important;
+        color: #999999 !important;
     }
     .stTabs [data-baseweb="tab"][aria-selected="true"] {
-        color: #B5664E !important;
-        border-bottom-color: #B5664E !important;
+        color: #CC0000 !important;
+        border-bottom-color: #CC0000 !important;
     }
 
+    /* テキストエリア・インプット */
     .stTextArea textarea, .stTextInput input {
-        background-color: #FDFBFA !important;
-        color: #3D3633 !important;
-        font-size: 15px !important;
-        border: 1.5px solid #E4D7D2 !important;
-        border-radius: 10px !important;
+        background-color: #FFFFFF !important;
+        color: #1A1A1A !important;
+        font-size: 14px !important;
+        border: 1.5px solid #CCCCCC !important;
+        border-radius: 8px !important;
     }
     .stTextArea textarea:focus, .stTextInput input:focus {
-        border: 1.5px solid #C97B5F !important;
-        box-shadow: 0 0 0 3px rgba(201,123,95,0.12) !important;
-    }
-
-    /* 「必須」「複数可」などの小タグ */
-    .stApp span[data-baseweb="tag"], .small-tag {
-        background-color: #F4E8E3 !important;
-        color: #B5664E !important;
-        border-radius: 6px !important;
-        padding: 2px 10px !important;
-        font-size: 12px !important;
-        font-weight: 600 !important;
+        border: 1.5px solid #CC0000 !important;
+        box-shadow: 0 0 0 3px rgba(204,0,0,0.10) !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🌸 Affiliate Post")
+st.title("🤖 Affiliate Post")
 
 if not GOOGLE_API_KEY:
     st.error(
