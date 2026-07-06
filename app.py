@@ -103,13 +103,23 @@ st.markdown("""
     .stMainBlockContainer { padding-top: 16px !important; padding-bottom: 16px !important; }
     div[data-testid="stVerticalBlock"] { gap: 0.4rem !important; }
 
-    /* カードエリア */
+    /* カラム内のカード削除（HTML方式に切り替え） */
     div[data-testid="column"] {
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    /* HTMLカード */
+    .card {
         background-color: #FFFFFF;
         border: 1.5px solid #E0E0E0;
         border-radius: 12px;
         padding: 16px 18px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        margin-bottom: 8px;
     }
 
     hr { border-color: #E0E0E0 !important; }
@@ -244,6 +254,7 @@ with tabs[1]:  # 「生成」タブ
     col1, col2 = st.columns([1, 1.3])
 
     with col1:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("#### 📷 商品画像")
         uploaded_file = st.file_uploader("商品画像をアップロード（必須）", type=["jpg", "jpeg", "png"])
 
@@ -251,8 +262,10 @@ with tabs[1]:  # 「生成」タブ
         if uploaded_file:
             img_for_gemini = Image.open(uploaded_file)
             st.image(img_for_gemini, caption="アップロードされた画像", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown("#### ⚙️ 投稿設定")
 
         gender = st.radio("性別", ["指定なし", "男性", "女性"], horizontal=True)
@@ -282,6 +295,7 @@ with tabs[1]:  # 「生成」タブ
 
         affiliate_url = st.text_input("🔗 アフィリエイトURL（任意）", placeholder="https://r10.to/xxxx")
         memo = st.text_area("📝 補足メモ（任意）", placeholder="例：秋冬向け・プレゼントにも。使い心地など", height=80)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
